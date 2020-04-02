@@ -5,6 +5,9 @@ import { DISHES } from '../shared/dishes';
 import { LEADERS } from '../shared/leaders';
 import { PROMOTIONS } from '../shared/promotions';
 
+import { AboutUs } from './AboutUs';
+import { ContactUs } from './ContactUs';
+
 function RenderItem(props){
   const item = props.item;
 
