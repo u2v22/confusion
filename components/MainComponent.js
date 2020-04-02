@@ -4,7 +4,7 @@ import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 
 import Menu from './MenuComponents';
 import DishDetail from './DishDetailComponent';
-import { AboutUs } from './AboutUs';
+import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
 import Home from './HomeComponent';
 
