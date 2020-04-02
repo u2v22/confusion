@@ -9,7 +9,7 @@ import { DISHES } from '../shared/dishes';
 
 const MenuNavigator = createStackNavigator({
         Menu: { screen: Menu },
-        Dishdetail: { screen: DishDetail }
+        DishDetail: { screen: DishDetail }
     },
     {
         initialRouteName: 'Menu',
