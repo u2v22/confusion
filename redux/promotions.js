@@ -6,12 +6,16 @@ export const promotions = (state={
   promotions: []
 }, action) => {
   switch(action.type) {
+
     case ActionTypes.ADD_PROMOTIONS:
       return {...state, isLoading: false, errMsg: null, promotions: action.payload };
+
     case ActionTypes.PROMOTIONS_LOADING:
-      return {...state, isLoading: true, errMsg: action.payload, promotions: [] };
+      return {...state, isLoading: true, errMsg: null, promotions: [] };
+
     case ActionTypes.PROMOTIONS_FAILED:
-      return {...state, isLoading: false, errMsg: action.payload, promotions: [] };
+      return {...state, isLoading: false, errMsg: action.payload };
+
     default:
       return state;
   }

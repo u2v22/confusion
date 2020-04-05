@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const fetchComments = () => (dispatch) => {
-  return fetch(`baseUrl${comments}`)
+  return fetch(baseUrl + 'comments')
     .then(response => {
       if(response.ok){
         return response;
@@ -39,7 +39,7 @@ export const addComments = (comments) => ({
 export const fetchDishes = () => (dispatch) => {
   dispatch(dishesLoading());
 
-  return fetch(`baseUrl${comments}`)
+  return fetch(baseUrl + 'dishes')
     .then(response => {
       if(response.ok){
         return response;
@@ -68,7 +68,7 @@ export const dishesFailed = (errMsg) => ({
   payload: errMsg
 });
 
-export const addComments = (dishes) => ({
+export const addDishes = (dishes) => ({
   type: ActionTypes.ADD_DISHES,
   payload: dishes
 });
@@ -79,7 +79,7 @@ export const addComments = (dishes) => ({
 export const fetchPromotions = () => (dispatch) => {
   dispatch(promotionsLoading());
 
-  return fetch(`baseUrl${promotions}`)
+  return fetch(baseUrl + 'promotions')
     .then(response => {
       if(response.ok){
         return response;
@@ -119,7 +119,7 @@ export const addPromotions = (promotions) => ({
 export const fetchLeaders = () => (dispatch) => {
   dispatch(leadersLoading());
 
-  return fetch(`baseUrl${leaders}`)
+  return fetch(baseUrl + 'leaders')
     .then(response => {
       if(response.ok){
         return response;
@@ -148,7 +148,7 @@ export const leadersFailed = (errMsg) => ({
   payload: errMsg
 });
 
-export const addLeaderss = (leaders) => ({
+export const addLeaders = (leaders) => ({
   type: ActionTypes.ADD_LEADERS,
   payload: leaders
 });
