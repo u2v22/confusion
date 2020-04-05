@@ -70,6 +70,7 @@ function RenderComments(props){
   );
 }
 
+
 class DishDetail extends Component{
   constructor(props){
     super(props);
@@ -85,13 +86,9 @@ class DishDetail extends Component{
     this.setState({ favorites: this.state.favorites.concat(dishId) })
   }
 
-  static navigationOptions = {
-    title: 'Dish Details'
-  };
-
   render(){
-
-    const dishId = this.props.navigation.getParam('dishId','');
+    const { route, navigation } = this.props;
+    const dishId = route.params.dishId;
 
     return(
         <ScrollView>

@@ -5,6 +5,19 @@ import Constants from 'expo-constants';
 
 import { DISHES } from '../shared/dishes';
 
+const MenuStack = createStackNavigator();
+
+export const MenuScreen = () => {
+  <MenuStack.Navigator initialRouteName="Menu">
+    <MenuStack.Screen name="Menu"
+                      component={Menu}
+                      options={{ title: 'Menu' }} />
+    <MenuStack.Screen name="DishDetail"
+                      component={DishDetail}
+                      options={{ title: 'DishDetail' }} />
+  </MenuStack.Navigator>
+}
+
 class Menu extends Component{
   constructor(props){
     super(props)
@@ -14,13 +27,9 @@ class Menu extends Component{
     }
   }
 
-  static navigationOptions = {
-      title: 'Menu'
-  };
-
   render(){
 
-    const { navigate } = this.props.navigation;
+    const { navigation } = this.props;
 
     const renderMenuItem = ({item, index}) => {
       return(
@@ -29,7 +38,7 @@ class Menu extends Component{
           title={item.name}
           subtitle={item.description}
           hideChevron={true}
-          onPress={() => navigate('DishDetail', { dishId: item.id })}
+          onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
           leftAvatar={{ source: require('../assets/images/buffet.png') }}
           />
       );
