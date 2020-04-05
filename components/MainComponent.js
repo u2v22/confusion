@@ -19,27 +19,82 @@ import DishDetail from './DishDetailComponent';
 import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
 import Home from './HomeComponent';
+import { fetchDishes, fetchComments, fetchPromotions, fetchLeaders } from '../redux/ActionCreators';
 
-const AboutUsNavigator = createStackNavigator();
-const ContactUsNavigator = createStackNavigator();
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
 const Drawer = createDrawerNavigator();
 
-export const Main = () => {
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromotions: () => dispatch(fetchPromotions())
+});
+
+const MenuStack = createStackNavigator();
+
+const MenuStackScreen = ({ navigation }) => {
+  return(
+    <MenuStack.Navigator>
+      <MenuStack.Screen name='Menu'
+                        component={Menu} />
+      <MenuStack.Screen name='DishDetail'
+                        component={DishDetail}
+                        onPress={() => navigation.navigate('DishDetail', { dishId: 3 })}/>
+    </MenuStack.Navigator>
+  )
+}
+
+
+export function DrawerScreen({ navigation }) {
   const style={
     flex:1,
     paddingTop: Platform.OS === 'ios' ? 0 : 25
   }
-
   return(
     <NavigationContainer style={style}>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Menu" component={Menu} options={{ title: 'Menu' }} />
-        <Drawer.Screen name="AboutUs" component={AboutUs} options={{ title: 'About Us'}} />
-        <Drawer.Screen name="ContactUs" component={ContactUs} options={{ title: 'Contact Us'}} />
+      <Drawer.Navigator initialRouteName='MenuStackScreen'>
+        <Drawer.Screen name="Home"
+                       component={Home}
+                       options={{ title: 'Home' }} />
+        <Drawer.Screen name="MenuStackScreen"
+                       component={MenuStackScreen}
+                       options={{ title: 'FU Screen' }} />
+        <Drawer.Screen name="AboutUs"
+                       component={AboutUs}
+                       options={{ title: 'About Us'}} />
+        <Drawer.Screen name="ContactUs"
+                       component={ContactUs}
+                       options={{ title: 'Contact Us'}} />
       </Drawer.Navigator>
     </NavigationContainer>
   )
+}
+
+class Main extends Component{
+  componentDidMount(){
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromotions();
+    this.props.fetchLeaders();
+  }
+
+  render(){
+    return(
+      <DrawerScreen />
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -65,4 +120,6 @@ const styles = StyleSheet.create({
     height: 60
   }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
