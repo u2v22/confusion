@@ -15,6 +15,7 @@ const mapStateToProps = state => {
 
 function RenderDish(props){
   const dish = props.dish;
+  console.log(dish);
   const style = {
     margin: 10
   }
