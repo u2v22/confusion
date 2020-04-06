@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Constants from 'expo-constants';
 import { Loading } from './LoadingComponent';
@@ -22,6 +22,10 @@ export const DishDetailScreen = () => {
 }
 
 class Menu extends Component{
+  constructor(props){
+    super(props)
+  }
+
   render(){
     const { navigation } = this.props;
 
@@ -46,7 +50,7 @@ class Menu extends Component{
     }
     else if(this.props.dishes.errMsg){
       return(
-        <View><Text>{props.errMsg}</Text></View>
+        <View><Text>{this.props.dishes.errMsg}</Text></View>
       )
     }
     else{

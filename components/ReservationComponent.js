@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Switch, Button, ScrollView, Picker } from 'react-native';
-import { Card } from 'react-native-element';
+import { Card } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 
 class Reservation extends Component {
@@ -34,9 +34,9 @@ class Reservation extends Component {
           <Picker style={styles.formItem}
                   selectedValue={this.state.guests}
                   onValueChange={(itemValue, itemIndex) => this.setState({guests: itemValue })}>
-              <Picker.item label='1' value='1' />
-              <Picker.item label='2' value='2' />
-              <Picker.item label='3' value='3' />
+              <Picker.Item label='1' value='1' />
+              <Picker.Item label='2' value='2' />
+              <Picker.Item label='3' value='3' />
           </Picker>
         </View>
         <View style={styles.formRow}>
@@ -45,7 +45,7 @@ class Reservation extends Component {
           </Text>
           <Switch style={styles.formItem}
                   value={this.state.smoking}
-                  onTintColor='#512DA8'
+                  trackColor='#512DA8'
                   onValueChange={(value) => this.setState({ smoking: value})}>
           </Switch>
         </View>
@@ -60,7 +60,7 @@ class Reservation extends Component {
                       placeholder='Select Date & Time'
                       minDate='2020-04-01'
                       confirmBtnText='Confirm'
-                      cancel='Cancel'
+                      cancelBtnText='Cancel'
                       customStyles={{
                         dateIcon: {
                           position: 'absolute',
@@ -69,11 +69,11 @@ class Reservation extends Component {
                           marginLeft: 0
                         },
                         dateInput: {
-                          marginLeft: 36,
-
+                          marginLeft: 36
                         }
                       }}
-                      onDateChange={(date) => this.setState({ date: date })}
+                      format="YYYY-MM-DD"
+                      onDateChange={(date) => {this.setState({date: date})}}
                       />
         </View>
         <View style={styles.formRow}>
