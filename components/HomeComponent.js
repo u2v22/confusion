@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 
 import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
+import { Loading } from './LoadingComponent';
 
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -20,22 +21,34 @@ const mapStateToProps = state => {
 function RenderItem(props){
   const item = props.item;
 
-  if(item != null){
+  if(props.isLoading){
     return(
-      <Card
-        featuredTitle={item.name}
-        featuredSubtitle={item.discription}
-        image={{ uri: baseUrl + item.image }}
-        >
-        <Text style={{ margin: 10 }}>
-          {item.description}
-        </Text>
-      </Card>
+      <Loading />
     )
-  } else {
+  }
+  else if(props.errMsg){
     return(
-      <View></View>
+      <View><Text>{props.errMsg}</Text></View>
     )
+  }
+  else{
+    if(item != null){
+      return(
+        <Card
+          featuredTitle={item.name}
+          featuredSubtitle={item.discription}
+          image={{ uri: baseUrl + item.image }}
+          >
+          <Text style={{ margin: 10 }}>
+            {item.description}
+          </Text>
+        </Card>
+      )
+    } else {
+      return(
+        <View></View>
+      )
+    }
   }
 }
 
@@ -44,10 +57,16 @@ class Home extends Component {
     return(
       <ScrollView>
         <RenderItem item={this.props.dishes.dishes.filter((dish) => dish.featured )[0]}
+                    isLoading={this.props.dishes.isLoading}
+                    errMsg={this.props.dishes.errMsg}
                     onPress={() => alert('todo')}/>
         <RenderItem item={this.props.promotions.promotions.filter((promo) => promo.featured )[0]}
+                    isLoading={this.props.promotions.isLoading}
+                    errMsg={this.props.promotions.errMsg}
                     onPress={() => alert('todo')}/>
         <RenderItem item={this.props.leaders.leaders.filter((lead) => lead.featured )[0]}
+                    isLoading={this.props.leaders.isLoading}
+                    errMsg={this.props.leaders.errMsg}
                     onPress={() => alert('todo')}/>
       </ScrollView>
     )
