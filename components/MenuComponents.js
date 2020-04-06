@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Constants from 'expo-constants';
+import { Loading } from './LoadingComponent';
 
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -38,13 +39,25 @@ class Menu extends Component{
       );
     }
 
-    return(
-      <FlatList
-        data={this.props.dishes.dishes}
-        renderItem={renderMenuItem}
-        keyExtractor={item => item.id.toString()}
-        />
-    );
+    if(this.props.dishes.isLoading){
+      return(
+        <Loading />
+      )
+    }
+    else if(this.props.dishes.errMsg){
+      return(
+        <View><Text>{props.errMsg}</Text></View>
+      )
+    }
+    else{
+      return(
+        <FlatList
+          data={this.props.dishes.dishes}
+          renderItem={renderMenuItem}
+          keyExtractor={item => item.id.toString()}
+          />
+      );
+    }
   }
 }
 
