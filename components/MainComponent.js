@@ -19,6 +19,7 @@ import DishDetail from './DishDetailComponent';
 import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
 import Home from './HomeComponent';
+import Reservation from './ReservationComponent';
 import { fetchDishes, fetchComments, fetchPromotions, fetchLeaders } from '../redux/ActionCreators';
 
 import { connect } from 'react-redux';
