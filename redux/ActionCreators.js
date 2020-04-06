@@ -183,10 +183,10 @@ export const postFavorite = (dishId) => (dispatch) => {
   }, 2000);
 }
 
-export const addFavorite = (dishId) => {
+export const addFavorite = (dishId) => ({
   type: ActionTypes.ADD_FAVORITE,
   payload: dishId
-}
+});
 
 
 
