@@ -19,6 +19,7 @@ import DishDetail from './DishDetailComponent';
 import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
 import Home from './HomeComponent';
+import Reservation from './ReservationComponent';
 import { fetchDishes, fetchComments, fetchPromotions, fetchLeaders } from '../redux/ActionCreators';
 
 import { connect } from 'react-redux';
@@ -64,7 +65,7 @@ export function DrawerScreen({ navigation }) {
   }
   return(
     <NavigationContainer style={style}>
-      <Drawer.Navigator initialRouteName='MenuStackScreen'>
+      <Drawer.Navigator initialRouteName='Reservation'>
         <Drawer.Screen name="Home"
                        component={Home}
                        options={{ title: 'Home' }} />
@@ -77,6 +78,9 @@ export function DrawerScreen({ navigation }) {
         <Drawer.Screen name="ContactUs"
                        component={ContactUs}
                        options={{ title: 'Contact Us'}} />
+        <Drawer.Screen name="Reservation"
+                       component={Reservation}
+                       options={{ title: 'Make a Reservation'}} />
       </Drawer.Navigator>
     </NavigationContainer>
   )
