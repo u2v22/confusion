@@ -16,6 +16,7 @@ import { Icon } from 'react-native-elements';
 
 import Menu, { MenuScreen } from './MenuComponents';
 import DishDetail from './DishDetailComponent';
+import Favorites from './FavoriteComponent';
 import AboutUs from './AboutUs';
 import { ContactUs } from './ContactUs';
 import Home from './HomeComponent';
@@ -65,13 +66,13 @@ export function DrawerScreen({ navigation }) {
   }
   return(
     <NavigationContainer style={style}>
-      <Drawer.Navigator initialRouteName='MenuStackScreen'>
+      <Drawer.Navigator initialRouteName='My Favorites'>
         <Drawer.Screen name="Home"
                        component={Home}
                        options={{ title: 'Home' }} />
         <Drawer.Screen name="MenuStackScreen"
                        component={MenuStackScreen}
-                       options={{ title: 'FU Screen' }} />
+                       options={{ title: 'Menu' }} />
         <Drawer.Screen name="AboutUs"
                        component={AboutUs}
                        options={{ title: 'About Us'}} />
@@ -81,6 +82,9 @@ export function DrawerScreen({ navigation }) {
         <Drawer.Screen name="Reservation"
                        component={Reservation}
                        options={{ title: 'Make a Reservation'}} />
+        <Drawer.Screen name="Favorites"
+                       component={Favorites}
+                       options={{ title: 'My Favorites'}} />
       </Drawer.Navigator>
     </NavigationContainer>
   )
