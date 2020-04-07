@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, FlatList } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { Card } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import { Loading } from './LoadingComponent';
@@ -33,49 +34,55 @@ class AboutUs extends Component{
 
     if(this.props.leaders.isLoading){
       return(
-        <React.Fragment>
-        <Card title={'Our History'}>
-          <Text style={{ margin: 10 }}>
-            {history}
-          </Text>
-        </Card>
-        <Card title={'Corporate Leadership'}>
-          <Loading />
-        </Card>
-        </React.Fragment>
+        <ScrollView>
+          <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+            <Card title={'Our History'}>
+              <Text style={{ margin: 10 }}>
+                {history}
+              </Text>
+            </Card>
+            <Card title={'Corporate Leadership'}>
+              <Loading />
+            </Card>
+          </Animatable.View>
+        </ScrollView>
       );
     }
     else if (this.props.leaders.errMsg){
       return(
-        <React.Fragment>
-        <Card title={'Our History'}>
-          <Text style={{ margin: 10 }}>
-            {history}
-          </Text>
-        </Card>
-        <Card title={'Corporate Leadership'}>
-          <Text>{this.props.leaders.errMsg}</Text>
-        </Card>
-        </React.Fragment>
+        <ScrollView>
+          <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+            <Card title={'Our History'}>
+              <Text style={{ margin: 10 }}>
+                {history}
+              </Text>
+            </Card>
+            <Card title={'Corporate Leadership'}>
+              <Text>{this.props.leaders.errMsg}</Text>
+            </Card>
+          </Animatable.View>
+        </ScrollView>
       );
     }
     else {
       return(
-        <React.Fragment>
-          <Card title={'Our History'}>
-            <Text style={{ margin: 10 }}>
-              {history}
-            </Text>
-          </Card>
+        <ScrollView>
+          <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+            <Card title={'Our History'}>
+              <Text style={{ margin: 10 }}>
+                {history}
+              </Text>
+            </Card>
 
-          <Card title={'Corporate Leadership'}>
-            <FlatList
-              data={this.props.leaders.leaders}
-              renderItem={renderLeaders}
-              keyExtractor={item => item.id.toString()}
-          />
-          </Card>
-        </React.Fragment>
+            <Card title={'Corporate Leadership'}>
+              <FlatList
+                data={this.props.leaders.leaders}
+                renderItem={renderLeaders}
+                keyExtractor={item => item.id.toString()}
+            />
+            </Card>
+          </Animatable.View>
+        </ScrollView>
       );
     }
   }
