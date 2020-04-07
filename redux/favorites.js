@@ -1,7 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 
 export const favorites = (state = [], action) => {
-  switch(ActionTypes){
+  switch(action.type){
     case ActionTypes.ADD_FAVORITE:
       if(state.some(element => element === action.payload)){
         return state;
