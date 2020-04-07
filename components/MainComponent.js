@@ -65,7 +65,7 @@ export function DrawerScreen({ navigation }) {
   }
   return(
     <NavigationContainer style={style}>
-      <Drawer.Navigator initialRouteName='Reservation'>
+      <Drawer.Navigator initialRouteName='MenuStackScreen'>
         <Drawer.Screen name="Home"
                        component={Home}
                        options={{ title: 'Home' }} />

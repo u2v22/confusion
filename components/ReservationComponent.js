@@ -7,10 +7,13 @@ class Reservation extends Component {
   constructor(props){
     super(props);
 
+    const today = new Date();
+    const dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
     this.state = {
       guests: 1,
       smoking: false,
-      date: '',
+      date: dateToday,
       showModal: false
     }
   }
@@ -86,7 +89,7 @@ class Reservation extends Component {
                       />
         </View>
         <View style={styles.formRow}>
-          <Button title='Reserve Now'
+          <Button title='Submit'
                   color='#512DA8'
                   onPress={() => this.handleReservation()}/>
         </View>
@@ -102,13 +105,11 @@ class Reservation extends Component {
             </Text>
             <Text style={styles.modalText}>
               {this.state.smoking ? 'Smoking Section' : 'Non-Smoking Section'}
-              Date and Time {this.state.date}
             </Text>
             <Text style={styles.modalText}>
               Date and Time: {this.state.date}
             </Text>
             <Text style={styles.modalText}>
-              FOR QUALITY TIME WITH YOUR GIRLFRIEND!!!
             </Text>
             <Button title='Close'
                     onPress={() => {this.toggleModal(); this.resetForm()}}
