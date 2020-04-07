@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { ScreenContainer } from 'react-native-screens';
 
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import { postFavorite } from '../redux/ActionCreators';
+import { postFavorite, postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
   return {
@@ -16,7 +16,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  postFavorite: (dishId) => dispatch(postFavorite(dishId))
+  postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+  postComment: (dishId) => dispatch(postComment(dishId))
 });
 
 function RenderDish(props){
@@ -64,7 +65,6 @@ function RenderDish(props){
 }
 
 function RenderComments(props){
-
   const comments = props.comments;
 
   const renderCommentItem = ({ item, index }) =>{
@@ -99,7 +99,11 @@ class DishDetail extends Component{
     super(props);
 
     this.state = {
-      showModal: false
+      showModal: false,
+      author: '',
+      rating: 0,
+      date: '',
+      comment: ''
     }
   }
 
@@ -111,12 +115,14 @@ class DishDetail extends Component{
     this.setState({ showModal: !this.state.showModal });
   }
 
-  addCommentModal(){
-    console.log('comment modal');
+  addComment(dishId){
+    console.log(JSON.stringify(this.state));
+    const today = new Date();
+    this.setState({ date: today });
 
+    this.props.postComment(dishId, this.state.author, this.state.rating, this.state.comment, this.state.date);
     this.toggleModal();
   }
-
 
   render(){
     const { route, navigation } = this.props;
@@ -126,24 +132,47 @@ class DishDetail extends Component{
         <ScrollView>
           <RenderDish dish={this.props.dishes.dishes[+dishId]}
                       favorite={this.props.favorites.some(element => element === dishId)}
-                      addComment={() => this.addCommentModal()}
+                      addComment={() => this.addComment(dishId)}
                       onPress={() => this.markFavorite(dishId)}
           />
           <RenderComments comments={this.props.comments.comments.filter(comment => dishId === comment.dishId )} />
 
           <Modal animationType={'slide'}
+                 style={{ width: '100%'}}
                  transparent={false}
                  visible={this.state.showModal}
                  onDismiss={() => {this.toggleModal()}}
                  onRequestClose={() => {this.toggleModal()}}>
             <View style={styles.modal}>
               <Text style={styles.modalTitle}>Add your rating</Text>
-              <Text style={styles.modalText}>
-                Modal for comments and ratings
-              </Text>
+              <Rating showRating
+                      name='rating'
+                      onFinishRating={(value) => this.setState({ rating: value})}
+                      startingValue="{0}" />
+              <Input placeholder='Author'
+                     name='author'
+                     onChangeText={(value) => this.setState({ author: value})}
+                     leftIcon={{
+                        type: 'font-awesome',
+                        name: 'user-o',
+                        iconStyle: {
+                          marginRight: 10
+                        }}} />
+              <Input placeholder='Comments'
+                     name='comment'
+                     onChangeText={(value) => this.setState({ comment: value})}
+                     leftIcon={{
+                        type: 'font-awesome',
+                        name: 'comment-o',
+                        iconStyle: {
+                          marginRight: 10
+                        }}} />
+              <Button title='Submit'
+                      onPress={() => {this.addComment(dishId)}}
+                      color= '#512DA8' />
               <Button title='Close'
                       onPress={() => {this.toggleModal()}}
-                      color= '#512DA8'/>
+                      color= 'grey'/>
             </View>
           </Modal>
         </ScrollView>
