@@ -16,8 +16,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  postFavorite: (dishId) => dispatch(postFavorite(dishId)),
-  postComment: (dishId) => dispatch(postComment(dishId))
+  postFavorite: (dishId, author, comment, rating, date) => dispatch(postFavorite(dishId, author, comment, rating, date)),
+  postComment: (dishId, author, comment, rating, date) => dispatch(postComment(dishId, author, comment, rating, date))
 });
 
 function RenderDish(props){
@@ -102,7 +102,7 @@ class DishDetail extends Component{
       showModal: false,
       author: '',
       rating: 0,
-      date: '',
+      date: new Date(),
       comment: ''
     }
   }
@@ -117,8 +117,6 @@ class DishDetail extends Component{
 
   addComment(dishId){
     console.log(JSON.stringify(this.state));
-    const today = new Date();
-    this.setState({ date: today });
 
     this.props.postComment(dishId, this.state.author, this.state.rating, this.state.comment, this.state.date);
     this.toggleModal();
