@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View, Text, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Constants from 'expo-constants';
@@ -32,7 +32,24 @@ class Favorites extends Component {
         {
           text: 'Remove',
           type: 'delete',
-          onPress: () => this.props.deleteFavorite(item.id)
+          onPress: () => {
+            Alert.alert(
+              'Remove Favorite',
+              'Are you sure you want to delete' + item.name + '?',
+              [
+                {
+                  text: 'cancel',
+                  onPress: () => console.log('not deleted'),
+                  style: ' cancel'
+                },
+                {
+                  text: 'OK',
+                  onPress: () => this.props.deleteFavorite(item.id)
+                }
+              ],
+              { cancelable: false }
+            );
+          }
         }
       ]
       return(
