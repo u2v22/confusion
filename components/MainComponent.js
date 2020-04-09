@@ -19,7 +19,7 @@ import DishDetail from './DishDetailComponent';
 import Favorites from './FavoriteComponent';
 import AboutUs from './AboutUs';
 import Login from './LoginComponent';
-import { ContactUs } from './ContactUs';
+import ContactUs from './ContactUs';
 import Home from './HomeComponent';
 import Reservation from './ReservationComponent';
 import { fetchDishes, fetchComments, fetchPromotions, fetchLeaders } from '../redux/ActionCreators';
