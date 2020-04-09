@@ -68,7 +68,7 @@ class Login extends Component {
                    marginRight: 10
                  }
                }}
-               onChangeText={(username) => this.setState({ password })}
+               onChangeText={(password) => this.setState({ password })}
                value={this.state.password}
                containerStyle={styles.formInput} />
         <CheckBox title='Remember me'
