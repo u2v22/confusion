@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import { Icon, Input, CheckBox, Button } from 'react-native-elements';
+import { Asset } from 'expo-asset';
+import * as ImageManipulator from "expo-image-manipulator";
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -127,12 +129,25 @@ class RegisterTab extends Component {
     if(cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted'){
       let capturedImage = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4,3]
+        aspect: [4,4]
       });
       if(!capturedImage.cancelled){
-        this.setState({ imageUrl: capturedImage.uri })
+        this.processImage(capturedImage.uri);
       }
     }
+  }
+
+  processImage = async (imageUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [
+        {
+          resize: { width: 400 }
+        }
+      ],
+      { format: 'png' }
+    )
+    this.setState({ imageUrl: processedImage.uri });
   }
 
   handleRegistration(){
@@ -249,7 +264,7 @@ const styles = StyleSheet.create({
   image: {
     margin: 10,
     width: 80,
-    height: 60
+    height: 80
   },
   formInput: {
     margin: 20
