@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { Card, Icon, Input, CheckBox } from 'react-native-elements';
-// import { SecureStore } from 'expo';
+import { Text, View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { Icon, Input, CheckBox, Button } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 class Login extends Component {
