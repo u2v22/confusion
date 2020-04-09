@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { Card, Icon, Input, CheckBox } from 'react-native-elements';
-// import { SecureStore } from 'expo';
+import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
+import { Icon, Input, CheckBox, Button } from 'react-native-elements';
+import { Asset } from 'expo-asset';
+import * as ImageManipulator from "expo-image-manipulator";
 import * as SecureStore from 'expo-secure-store';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { baseUrl } from '../shared/baseUrl';
 
 
-class Login extends Component {
+const Tab = createBottomTabNavigator();
+
+export function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Login" component={LoginTab} />
+      <Tab.Screen name="Register" component={RegisterTab} />
+    </Tab.Navigator>
+  );
+}
+
+class LoginTab extends Component {
   constructor(props){
     super(props);
 
@@ -78,10 +95,158 @@ class Login extends Component {
                   containerStyle={styles.formCheckbox} />
         <View style={styles.formButton}>
           <Button onPress={this.handleLogin()}
-                  title='Login'
-                  color='#512DA8'/>
+                    title='  Login'
+                    icon={<Icon
+                      name='sign-in'
+                      type='font-awesome'
+                      color='white'/>}
+                    buttonStyle={{ backgroundColor:'#512DA8'}}/>
         </View>
       </View>
+    )
+  }
+}
+
+class RegisterTab extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      username: '',
+      password: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      remember: false,
+      imageUrl: baseUrl + 'images/logo.png'
+    }
+  }
+
+  getImageFromCamera = async () => {
+    const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if(cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted'){
+      let capturedImage = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4,4]
+      });
+      if(!capturedImage.cancelled){
+        this.processImage(capturedImage.uri);
+      }
+    }
+  }
+
+  processImage = async (imageUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [
+        {
+          resize: { width: 400 }
+        }
+      ],
+      { format: 'png' }
+    )
+    this.setState({ imageUrl: processedImage.uri });
+  }
+
+  handleRegistration(){
+    console.log(JSON.stringify(this.state));
+
+    if(this.state.remember){
+      SecureStore.setItemAsync('userinfo', JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        email: this.state.email
+      }))
+      .catch((error) => console.log('Could not save user data!', error))
+    }
+  }
+
+  render(){
+    return(
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image source={{ uri: this.state.imageUrl }}
+                   loadingIndicatorSource={require('../assets/images/logo.png')}
+                   style={styles.image} />
+            <Button title='Camera'
+                    onPress={() => this.getImageFromCamera() }/>
+          </View>
+          <Input placeholder='Username'
+                 leftIcon={{
+                   type: 'font-awesome',
+                   name: 'user-o',
+                   iconStyle: {
+                     marginRight: 10
+                   }
+                 }}
+                 onChangeText={(username) => this.setState({ username })}
+                 value={this.state.username}
+                 containerStyle={styles.formInput} />
+          <Input placeholder='First Name'
+                 leftIcon={{
+                   type: 'font-awesome',
+                   name: 'user-o',
+                   iconStyle: {
+                     marginRight: 10
+                   }
+                 }}
+                 onChangeText={(firstname) => this.setState({ firstname })}
+                 value={this.state.firstname}
+                 containerStyle={styles.formInput} />
+          <Input placeholder='Last Name'
+                 leftIcon={{
+                   type: 'font-awesome',
+                   name: 'user-o',
+                   iconStyle: {
+                     marginRight: 10
+                   }
+                 }}
+                 onChangeText={(lastname) => this.setState({ lastname })}
+                 value={this.state.lastname}
+                 containerStyle={styles.formInput} />
+          <Input placeholder='Email'
+                 leftIcon={{
+                   type: 'font-awesome',
+                   name: 'envelope-o',
+                   iconStyle: {
+                     marginRight: 10
+                   }
+                 }}
+                 onChangeText={(email) => this.setState({ email })}
+                 value={this.state.email}
+                 containerStyle={styles.formInput} />
+          <Input placeholder='Password'
+                 leftIcon={{
+                   type: 'font-awesome',
+                   name: 'key',
+                   iconStyle: {
+                     marginRight: 10
+                   }
+                 }}
+                 onChangeText={(password) => this.setState({ password })}
+                 value={this.state.password}
+                 containerStyle={styles.formInput} />
+          <CheckBox title='Remember me'
+                    center
+                    checked={this.state.remember}
+                    onPress={() => this.handleRemember()}
+                    containerStyle={styles.formCheckbox} />
+          <View style={styles.formButton}>
+            <Button onPress={this.handleRegistration()}
+                    title='  Register'
+                    icon={<Icon
+                      name='user-plus'
+                      type='font-awesome'
+                      color='white'/>}
+                    buttonStyle={{ backgroundColor:'#512DA8'}}/>
+          </View>
+        </View>
+      </ScrollView>
     )
   }
 }
@@ -91,11 +256,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 20
   },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    margin: 20
+  },
+  image: {
+    margin: 10,
+    width: 80,
+    height: 80
+  },
   formInput: {
-    margin: 40
+    margin: 20
   },
   formCheckbox: {
-    margin: 40,
+    margin: 20,
     backgroundColor: null
   },
   formButton: {
@@ -103,4 +278,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default LoginTab;

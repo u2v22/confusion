@@ -14,11 +14,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Icon } from 'react-native-elements';
 
+import { MyTabs } from './LoginComponent';
 import Menu, { MenuScreen } from './MenuComponents';
 import DishDetail from './DishDetailComponent';
 import Favorites from './FavoriteComponent';
 import AboutUs from './AboutUs';
-import Login from './LoginComponent';
+import LoginTab from './LoginComponent';
 import ContactUs from './ContactUs';
 import Home from './HomeComponent';
 import Reservation from './ReservationComponent';
@@ -67,9 +68,9 @@ export function DrawerScreen({ navigation }) {
   }
   return(
     <NavigationContainer style={style}>
-      <Drawer.Navigator initialRouteName='Login'>
-        <Drawer.Screen name="Login"
-                       component={Login}
+      <Drawer.Navigator initialRouteName='Home'>
+        <Drawer.Screen name="MyTabs"
+                       component={MyTabs}
                        options={{ title: 'Login'}} />
         <Drawer.Screen name="Home"
                        component={Home}
