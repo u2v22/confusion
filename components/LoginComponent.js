@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import { Icon, Input, CheckBox, Button } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
@@ -8,6 +8,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { baseUrl } from '../shared/baseUrl';
 
+
+const Tab = createBottomTabNavigator();
+
+export function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Login" component={LoginTab} />
+      <Tab.Screen name="Register" component={RegisterTab} />
+    </Tab.Navigator>
+  );
+}
 
 class LoginTab extends Component {
   constructor(props){
@@ -112,7 +123,8 @@ class RegisterTab extends Component {
   getImageFromCamera = async () => {
     const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
     const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if(cameraPermission.status === 'granted' && cameraRollPermission === 'granted'){
+
+    if(cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted'){
       let capturedImage = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4,3]
@@ -147,7 +159,7 @@ class RegisterTab extends Component {
                    loadingIndicatorSource={require('../assets/images/logo.png')}
                    style={styles.image} />
             <Button title='Camera'
-                    onPress={() => this.getImageFromCamera }/>
+                    onPress={() => this.getImageFromCamera() }/>
           </View>
           <Input placeholder='Username'
                  leftIcon={{
@@ -251,4 +263,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default LoginTab;
